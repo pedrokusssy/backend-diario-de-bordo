@@ -54,20 +54,13 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
 
     // O SEGREDO ESTÁ NESTE MÉTODO:
+    // No teu SecurityFilter.java
     private String recoverToken(HttpServletRequest request) {
-
-        // A) Tenta ler do cabeçalho Authorization (Padrão do Axios/React)
         var authHeader = request.getHeader("Authorization");
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.replace("Bearer ", "");
-        }
+        if (authHeader != null) return authHeader.replace("Bearer ", "");
 
-        // B) Tenta ler da URL (Isto salva a vida do EventSource/SSE que dava erro 403!)
-        var tokenParam = request.getParameter("token");
-        if (tokenParam != null) {
-            return tokenParam;
-        }
-
-        return null;
+        // O teu contorno: também procura no parâmetro "token"
+        return request.getParameter("token");
     }
+
 }
