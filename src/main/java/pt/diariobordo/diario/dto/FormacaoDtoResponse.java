@@ -6,6 +6,8 @@ import pt.diariobordo.diario.entity.Periodo;
 import pt.diariobordo.diario.entity.Tutor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public record FormacaoDtoResponse(
@@ -16,12 +18,13 @@ public record FormacaoDtoResponse(
         Periodo periodo,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        String tutor
+        Tutor tutor,
+        List<Formando>  formandos
 
 
 ){
     public FormacaoDtoResponse(Formacao formaco){
-        this(formaco.getId(), formaco.getTitulo(), formaco.getDescricao(), formaco.getPeriodo(), formaco.getCreatedAt(), formaco.getUpdatedAt(), formaco.getTutor());
+        this(formaco.getId(), formaco.getTitulo(), formaco.getDescricao(), formaco.getPeriodo(), formaco.getCreatedAt(), formaco.getUpdatedAt(), formaco.getTutor(), formaco.getFormandos());
 
     }
 }

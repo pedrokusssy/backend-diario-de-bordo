@@ -12,8 +12,8 @@ public record FormacaoDtoRequest (
 
         String titulo,
         String descricao,
-        UUID periodo,
-        String tutor
+        Periodo periodo,
+        Tutor tutor
 
 
 ){

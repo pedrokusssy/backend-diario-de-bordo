@@ -3,8 +3,7 @@ package pt.diariobordo.diario.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pt.diariobordo.diario.dto.FormacaoDtoRequest;
-import pt.diariobordo.diario.dto.FormacaoDtoResponse;
+import pt.diariobordo.diario.dto.*;
 import pt.diariobordo.diario.entity.Diario;
 import pt.diariobordo.diario.entity.Formacao;
 import pt.diariobordo.diario.repository.FormacaoRepository;
@@ -32,7 +31,7 @@ public class FormacaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Set<Formacao>> formacaoById(@PathVariable UUID id){
+    public ResponseEntity<List<GetFormacoesPorFormandoIdDtoRequest>> formacaoByIdFormando(@PathVariable UUID id){
 
         // 2. Retorna o status 200 OK
         return ResponseEntity.ok(this.formacaoService.getFormacoesPorFormandoId(id));
@@ -42,6 +41,12 @@ public class FormacaoController {
     public Formacao newFormacao(@RequestBody FormacaoDtoRequest formacaoDtoRequest){
         System.out.println("formacaoDtoRequest - Entrou 1"+formacaoDtoRequest);
         return this.formacaoService.novaFormacao(formacaoDtoRequest);
+    }
+
+    @PostMapping("/{formacoId}/formando")
+    public void formand(@PathVariable UUID formacoId, @RequestBody FormandoIdRequest formandoId){
+
+        this.formacaoService.setFormandoAtFormacao( formacoId, formandoId);
     }
 
 

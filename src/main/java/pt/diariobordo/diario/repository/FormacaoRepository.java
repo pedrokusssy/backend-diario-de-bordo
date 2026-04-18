@@ -11,5 +11,6 @@ import java.util.UUID;
 @Repository
 public interface FormacaoRepository extends JpaRepository<Formacao, UUID> {
     Set<Formacao> findAllByFormandosId(UUID formandoId);
+    Formacao findByFormandosId(UUID formandoId);
 
 }

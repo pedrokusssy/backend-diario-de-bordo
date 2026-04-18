@@ -1,6 +1,5 @@
 package pt.diariobordo.diario.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
@@ -19,9 +18,8 @@ import java.util.*;
 @ToString
 @EqualsAndHashCode
 public class Formacao {
-
     @Id
-    private final UUID id;
+    private UUID id; // REMOVIDO O 'final'
 
     @Column(nullable = false)
     private String titulo;
@@ -32,23 +30,25 @@ public class Formacao {
     @JoinColumn(name = "periodo_id")
     private Periodo periodo;
 
-    private String tutor;
+    @ManyToOne
+    @JoinColumn(name = "tutor_id")
+    @JsonIgnoreProperties("formacoesMinistradas")
+    private Tutor tutor;
 
-    private final LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    @Column(updatable = false)
+    private LocalDateTime createdAt; // REMOVIDO O 'final'
 
     @ManyToMany
     @JoinTable(
-            name = "formacao_formando", // Nome da tabela que o Hibernate vai criar
+            name = "formacao_formando",
             joinColumns = @JoinColumn(name = "formacao_id"),
             inverseJoinColumns = @JoinColumn(name = "formando_id")
     )
-    @JsonIgnoreProperties("formacoes") // Evita loop infinito no JSON
+    @JsonIgnoreProperties("formacoes")
     private List<Formando> formandos = new ArrayList<>();
 
-
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
     public Formacao(String titulo, String descricao, Periodo periodo) {
         this.id = UUID.randomUUID();
         this.titulo = titulo;
@@ -57,11 +57,20 @@ public class Formacao {
         this.periodo = periodo;
     }
 
-    public Formacao(String titulo, String descricao, String tutor) {
+    public Formacao(String titulo, String descricao, Periodo periodo,  Tutor tutor) {
         this.id = UUID.randomUUID();
         this.titulo = titulo;
         this.descricao = descricao;
         this.createdAt = LocalDateTime.now();
+        this.periodo = periodo;
+        this.tutor = tutor;
+    }
+
+    public Formacao(String titulo, String descricao, Tutor tutor) {
+        this();
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.tutor = tutor;
     }
 
     public Formacao(String titulo, String descricao ) {
@@ -82,6 +91,13 @@ public class Formacao {
         this.id = UUID.randomUUID();
         this.titulo = titulo;
         this.createdAt = LocalDateTime.now();
+    }
+
+    public Formacao(String titulo, Tutor tutor) {
+        this.id = UUID.randomUUID();
+        this.titulo = titulo;
+        this.createdAt = LocalDateTime.now();
+        this.tutor = tutor;
     }
 
     public Formacao() {
