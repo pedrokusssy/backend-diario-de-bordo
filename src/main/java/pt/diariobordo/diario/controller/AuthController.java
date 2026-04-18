@@ -47,7 +47,7 @@ public class AuthController {
         if (perfil instanceof Formando f) {
             infoAdicional = f.getHospitalOrigem();
         } else if (perfil instanceof Tutor t) {
-            infoAdicional = t.getEspecialidade();
+            infoAdicional ="";
         }
 
         UsuarioPerfilDTO dto = new UsuarioPerfilDTO(

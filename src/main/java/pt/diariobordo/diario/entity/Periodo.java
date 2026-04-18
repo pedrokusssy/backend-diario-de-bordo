@@ -19,7 +19,7 @@ import java.util.*;
 @EqualsAndHashCode
 public class Periodo {
     @Id
-    private final UUID id;
+    private  UUID id;
 
     private LocalDate dataInicio;
     private LocalDate dataFim;
@@ -27,7 +27,7 @@ public class Periodo {
     private LocalTime horaInicio;
     private LocalTime horaFim;
 
-    private final LocalDateTime createdAt;
+    private  LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public Periodo(LocalDate dataInicio, LocalDate dataFim, LocalTime horaInicio, LocalTime horaFim) {
@@ -47,8 +47,7 @@ public class Periodo {
     }
 
     public Periodo() {
-        this.id = UUID.randomUUID();
-        this.createdAt = LocalDateTime.now();
+
     }
 
 }

@@ -38,7 +38,7 @@ public class UsuarioService {
             tutor.setNome(dto.nome());
             tutor.setTelefone(dto.telefone());
             tutor.setNif(dto.nif());
-            tutor.setEspecialidade(dto.especialidade());
+          //  tutor.setEspecialidade(dto.especialidade());
 
             // Associa o Tutor ao Perfil do Utilizador
             novoUsuario.setPerfil(tutor);

@@ -20,6 +20,8 @@ public class Formando extends Pessoa {
 
     private String hospitalOrigem;
 
+    private String especialidade;
+
     @ManyToMany(mappedBy = "formandos") // Nome do campo na classe Formacao
     @JsonIgnore // Evita que ao carregar o formando, ele tente carregar a formação (loop)
     private List<Formacao> formacoes = new ArrayList<>();

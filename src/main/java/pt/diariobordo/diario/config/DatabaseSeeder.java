@@ -27,7 +27,7 @@ public class DatabaseSeeder implements CommandLineRunner {
             // 1. Criar o Perfil (neste caso, um Tutor/Admin)
             Tutor tutor = new Tutor();
             tutor.setNome("Administrador do Sistema");
-            tutor.setEspecialidade("Gestão Geral");
+           // tutor.setEspecialidade("Gestão Geral");
 
             // 2. Criar as Credenciais (Usuario)
             Usuario admin = new Usuario();
