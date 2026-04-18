@@ -1,5 +1,6 @@
 package pt.diariobordo.diario.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,39 +15,39 @@ import java.util.*;
 @Getter
 @Setter
 
-@ToString
-@EqualsAndHashCode
+
+@ToString(callSuper = true, exclude = "formacoesMinistradas")
+@EqualsAndHashCode(callSuper = true)
 public class Tutor extends Pessoa {
 
     // Herdará id, nome, nif, telefone de Pessoa automaticamente
 
-    private String especialidade;
-
     // Relacionamentos específicos
-    @OneToMany(mappedBy = "tutor")
-    private List<Formacao> formacoesMinistradas;
+    // O mappedBy indica que o mapeamento é controlado pelo campo "tutor" na classe Formacao
+    @OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Formacao> formacoesMinistradas = new ArrayList<>();
 
     public Tutor() {
         super();
     }
 
-    public Tutor(String nome, String telefone, String nif, String especialidade, List<Formacao> formacoesMinistradas) {
+    public Tutor(String nome, String telefone, String nif, List<Formacao> formacoesMinistradas) {
         super(nome, telefone, nif);
-        this.especialidade = especialidade;
+
         this.formacoesMinistradas = formacoesMinistradas;
     }
 
-    public Tutor(String nome, String especialidade, List<Formacao> formacoesMinistradas) {
+    public Tutor(String nome, List<Formacao> formacoesMinistradas) {
         super(nome);
-        this.especialidade = especialidade;
         this.formacoesMinistradas = formacoesMinistradas;
     }
 
-    public Tutor(String especialidade, List<Formacao> formacoesMinistradas) {
-        this.especialidade = especialidade;
-        this.formacoesMinistradas = formacoesMinistradas;
-    }
     public Tutor(String nome, String telefone, String nif) {
         super(nome, telefone, nif);
+    }
+
+    public Tutor(String nome) {
+        super(nome);
     }
 }
