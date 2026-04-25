@@ -18,8 +18,10 @@ import java.util.UUID;
 public class DiarioController {
 
     private final DiarioService diarioService;
-    public DiarioController(DiarioService diarioService) {
+    private final NotificationController notificationController;
+    public DiarioController(DiarioService diarioService, NotificationController notificationController) {
         this.diarioService = diarioService;
+        this.notificationController = notificationController;
     }
 
     @GetMapping
@@ -49,7 +51,9 @@ public class DiarioController {
 
     @PostMapping
     public void novoDiario(@RequestBody DiarioDtoRequest diarioDtoRequest){
-        this.diarioService.novoDiario(diarioDtoRequest);
+        Diario diario = this.diarioService.novoDiario(diarioDtoRequest);
+        // O novo, que avisa SÓ o dono do diário para ele atualizar a lista de diários dele!
+        notificationController.notifyUser(diario.getFormando().getId(), "DIARIO");
     }
 
     @PutMapping("/{id}")
