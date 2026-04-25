@@ -1,12 +1,17 @@
 package pt.diariobordo.diario.service;
 
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pt.diariobordo.diario.dto.RegistoUsuarioDTO;
 import pt.diariobordo.diario.entity.*;
+import pt.diariobordo.diario.entity.enums.MailType;
 import pt.diariobordo.diario.entity.enums.UserRole;
 import pt.diariobordo.diario.repository.UsuarioRepository;
+import pt.diariobordo.diario.utils.MailStructurHMTL;
+
+import java.io.UnsupportedEncodingException;
 
 @Service
 public class UsuarioService {
@@ -17,7 +22,10 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Usuario registarNovoUsuario(RegistoUsuarioDTO dto) {
+    @Autowired
+    private MailService mailService;
+
+    public Usuario registarNovoUsuario(RegistoUsuarioDTO dto) throws MessagingException, UnsupportedEncodingException {
 
         // 1. Verifica se o e-mail já existe
         if (usuarioRepository.findByEmail(dto.email()) != null) {
@@ -56,6 +64,15 @@ public class UsuarioService {
 
         // 4. Salva tudo de uma vez. O CascadeType.ALL fará os INSERTs na tabela
         // "usuarios", "pessoas" e "tutores"/"formandos" automaticamente!
-        return usuarioRepository.save(novoUsuario);
+
+        Usuario usuario = usuarioRepository.save(novoUsuario);
+
+        Pessoa pessoa = (Pessoa) usuario.getPerfil();
+
+        String newUserMail = MailStructurHMTL.createNewUserHtmlMail(pessoa.getNome(), usuario.getEmail(), dto.password());
+
+        mailService.sendHtml("System", usuario.getEmail(),"Bem-vindo à Plataforma - DIÁRIO DE BORDO", newUserMail, MailType.CREATUSER, pessoa);
+
+        return usuario;
     }
 }
