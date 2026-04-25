@@ -68,7 +68,9 @@ public class DiarioController {
         Diario diarioAtualizado = this.diarioService.atualizarDiario(id, diarioDtoRequest);
 
         // 2. Retorna o status 200 OK junto com o diário atualizado
-        return ResponseEntity.ok(diarioAtualizado);
+        ResponseEntity response = ResponseEntity.ok(diarioAtualizado);
+        notificationController.notifyUser(this.idn, "DIARIO");
+        return response;
     }
 
     @DeleteMapping("/{id}")
@@ -79,9 +81,9 @@ public class DiarioController {
 
         // Retorna o status 204 (No Content), indicando que deu tudo certo
         // e não há conteúdo para retornar no corpo da resposta.
-        ResponseEntity nm =  ResponseEntity.noContent().build();
+        ResponseEntity response =  ResponseEntity.noContent().build();
         notificationController.notifyUser(this.idn, "DIARIO");
-        return nm;
+        return response;
     }
 
 }
