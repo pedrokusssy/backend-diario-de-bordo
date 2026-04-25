@@ -10,11 +10,12 @@ public record GetFormacoesPorFormandoIdDtoRequest(UUID id,
                                                   String titulo,
                                                   String descricao,
                                                   Tutor tutor,
+                                                  String localFormacao,
                                                   Periodo periodo) {
 
     public GetFormacoesPorFormandoIdDtoRequest(Formacao formacao_) {
         this(formacao_.getId(), formacao_.getTitulo(),formacao_.getDescricao(),
-                formacao_.getTutor(),formacao_.getPeriodo());
+                formacao_.getTutor(), formacao_.getLocalFormacao(), formacao_.getPeriodo());
     }
 
 }
