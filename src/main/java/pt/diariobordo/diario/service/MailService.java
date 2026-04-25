@@ -14,6 +14,8 @@ import pt.diariobordo.diario.entity.enums.MailType;
 import pt.diariobordo.diario.repository.MailsEnviadoRespositoryy;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class MailService {
@@ -37,7 +39,8 @@ public class MailService {
         helper.setSubject(subject);
         helper.setText(htmlBody, true); // true means this is HTML
 
-        MailsEnviado mailsEnviado = new MailsEnviado(from, to, pessoa,subject, mailType, htmlBody);
+        Set<String> anexos = new HashSet<>();
+        MailsEnviado mailsEnviado = new MailsEnviado(from, to, pessoa,subject, mailType, htmlBody, anexos);
 
         mailsEnviadoRespositoryy.save(mailsEnviado);
         mailSender.send(message);
