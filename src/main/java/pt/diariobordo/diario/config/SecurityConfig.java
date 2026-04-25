@@ -29,6 +29,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults()) // Permite que o React (localhost:3000) acesse a API
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 100% Stateless
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/updates/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Login é público
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll() // Se tiver registro, é público
                         .anyRequest().authenticated() // Tudo o resto exige o Token

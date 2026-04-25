@@ -24,6 +24,8 @@ public class DiarioController {
         this.notificationController = notificationController;
     }
 
+    UUID idn ;
+
     @GetMapping
     public List<Diario> listar(){
        return this.diarioService.getDiarios();
@@ -54,6 +56,7 @@ public class DiarioController {
         Diario diario = this.diarioService.novoDiario(diarioDtoRequest);
         // O novo, que avisa SÓ o dono do diário para ele atualizar a lista de diários dele!
         notificationController.notifyUser(diario.getFormando().getId(), "DIARIO");
+        idn = diario.getFormando().getId();
     }
 
     @PutMapping("/{id}")
@@ -76,7 +79,9 @@ public class DiarioController {
 
         // Retorna o status 204 (No Content), indicando que deu tudo certo
         // e não há conteúdo para retornar no corpo da resposta.
-        return ResponseEntity.noContent().build();
+        ResponseEntity nm =  ResponseEntity.noContent().build();
+        notificationController.notifyUser(this.idn, "DIARIO");
+        return nm;
     }
 
 }
