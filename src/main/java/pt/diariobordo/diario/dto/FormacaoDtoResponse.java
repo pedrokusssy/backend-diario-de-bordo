@@ -19,12 +19,13 @@ public record FormacaoDtoResponse(
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
         Tutor tutor,
+        String localFormacao,
         List<Formando>  formandos
 
 
 ){
     public FormacaoDtoResponse(Formacao formaco){
-        this(formaco.getId(), formaco.getTitulo(), formaco.getDescricao(), formaco.getPeriodo(), formaco.getCreatedAt(), formaco.getUpdatedAt(), formaco.getTutor(), formaco.getFormandos());
+        this(formaco.getId(), formaco.getTitulo(), formaco.getDescricao(), formaco.getPeriodo(), formaco.getCreatedAt(), formaco.getUpdatedAt(), formaco.getTutor(), formaco.getLocalFormacao(), formaco.getFormandos());
 
     }
 }

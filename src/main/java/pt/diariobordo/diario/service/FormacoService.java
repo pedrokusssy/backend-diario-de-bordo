@@ -58,7 +58,8 @@ public class FormacoService {
                 request.titulo(),
                 request.descricao(),
                 periodo,
-                tutor
+                tutor,
+                request.localFormacao()
         );
 
         // 3. Salva

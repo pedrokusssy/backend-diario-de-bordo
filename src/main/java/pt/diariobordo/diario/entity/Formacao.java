@@ -38,6 +38,8 @@ public class Formacao {
     @Column(updatable = false)
     private LocalDateTime createdAt; // REMOVIDO O 'final'
 
+    private String localFormacao;
+
     @ManyToMany
     @JoinTable(
             name = "formacao_formando",
@@ -57,13 +59,14 @@ public class Formacao {
         this.periodo = periodo;
     }
 
-    public Formacao(String titulo, String descricao, Periodo periodo,  Tutor tutor) {
+    public Formacao(String titulo, String descricao, Periodo periodo,  Tutor tutor, String localFormacao) {
         this.id = UUID.randomUUID();
         this.titulo = titulo;
         this.descricao = descricao;
         this.createdAt = LocalDateTime.now();
         this.periodo = periodo;
         this.tutor = tutor;
+        this.localFormacao =  localFormacao;
     }
 
     public Formacao(String titulo, String descricao, Tutor tutor) {
