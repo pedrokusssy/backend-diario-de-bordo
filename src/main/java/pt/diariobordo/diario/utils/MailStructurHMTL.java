@@ -2,7 +2,7 @@ package pt.diariobordo.diario.utils;
 
 public class MailStructurHMTL {
 
-    public static String createNewUserHtmlMail(String username, String userpassword, String usermail){
+    public static String createNewUserHtmlMail(String username, String usermail, String userpassword){
 
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"pt-BR\">\n" +
